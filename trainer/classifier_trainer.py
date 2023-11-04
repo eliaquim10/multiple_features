@@ -22,7 +22,7 @@ import random
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold
 from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import classification_report, precision_score, recall_score, f1_score, accuracy_score
 from sklearn.pipeline import Pipeline
@@ -82,7 +82,7 @@ class ClassifierTrainer:
         dict: The best hyperparameters for the classifier.
         Pipeline: The best pipeline with optimized hyperparameters.
         """
-        grid_search = GridSearchCV(pipeline, self.param_grid, cv=10, scoring='accuracy', n_jobs=-1, verbose=0)
+        grid_search = GridSearchCV(pipeline, self.param_grid, cv=StratifiedKFold(10), scoring='accuracy', n_jobs=-1, verbose=0)
         grid_search.fit(X_train, y_train)
 
         best_params = grid_search.best_params_
