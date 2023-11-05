@@ -26,7 +26,9 @@ from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKF
 from sklearn.ensemble import VotingClassifier
 from sklearn.metrics import classification_report, precision_score, recall_score, f1_score, accuracy_score
 from sklearn.pipeline import Pipeline
+import statistics as st
 from tqdm import tqdm
+
 
 class ClassifierTrainer:
     """
@@ -198,10 +200,33 @@ class ClassifierTrainer:
         accuracy_confidence = np.percentile(accuracy_scores, [2.5, 97.5])
     
         # Print the confidence intervals for the evaluation metrics
-        print(f"Dataset - Precision Confidence Interval: {precision_confidence}")
-        print(f"Dataset - Recall Confidence Interval: {recall_confidence}")
-        print(f"Dataset - F1 Confidence Interval: {f1_confidence}")
-        print(f"Dataset - Accuracy Confidence Interval: {accuracy_confidence}")
+        print(f"Dataset - Precision Mean: {st.mean(precision_scores)}")
+        print(
+            f"Dataset - Precision Standard Deviation: {st.stdev(precision_scores)}"
+        )
+        print(
+            f"Dataset - Precision Confidence Interval: {precision_confidence} \n"
+        )
+
+        print(f"Dataset - Recall Mean: {st.mean(recall_scores)}")
+        print(
+            f"Dataset - Recall Standard Deviation: {st.stdev(recall_scores)}"
+        )
+        print(f"Dataset - Recall Confidence Interval: {recall_confidence}\n")
+
+        print(f"Dataset - F1 Mean: {st.mean(f1_scores)}")
+        print(f"Dataset - F1 Standard Deviation: {st.stdev(f1_scores)}")
+        print(f"Dataset - F1 Confidence Interval: {f1_confidence}\n")
+
+        print(f"Dataset - Accuracy Mean: {st.mean(accuracy_scores)}")
+        print(
+            f"Dataset - Accuracy Standard Deviation: {st.stdev(accuracy_scores)}"
+        )
+        print(
+            f"Dataset - Accuracy Confidence Interval: {accuracy_confidence}\n"
+        )
+
+        print(classification_report(y_test, majority_labels))
 
 
 if __name__ == "__main__":
